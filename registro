@@ -1,0 +1,39 @@
+import PySimpleGUI as sg
+
+# Layout
+sg.theme('Reddit')
+layout = [
+    [sg.Text('Nome'), sg.Input(key='nome')],
+    [sg.Text('E-mail'), sg.Input(key='email')],
+    [sg.Text('Senha'), sg.Input(key='senha', password_char='*')],
+    [sg.Text('Confirmar Senha'), sg.Input(key='confirma_senha', password_char='*')],
+    [sg.Button('Registrar'), sg.Button('Cancelar')]
+]
+
+# Janela de Registro
+janela = sg.Window('Tela de Registro', layout)
+
+# Ler os eventos
+while True:
+    eventos, valores = janela.read()
+    
+    if eventos == sg.WINDOW_CLOSED or eventos == 'Cancelar':
+        break
+    
+    if eventos == 'Registrar':
+        # Validações simples
+        nome = valores['nome']
+        email = valores['email']
+        senha = valores['senha']
+        confirma_senha = valores['confirma_senha']
+        
+        if nome == '' or email == '' or senha == '' or confirma_senha == '':
+            sg.popup_error('Todos os campos são obrigatórios.')
+        elif senha != confirma_senha:
+            sg.popup_error('As senhas não coincidem.')
+        else:
+            sg.popup('Registro concluído com sucesso!', f'Nome: {nome}\nE-mail: {email}')
+            break
+
+# Fechar a janela
+janela.close()
